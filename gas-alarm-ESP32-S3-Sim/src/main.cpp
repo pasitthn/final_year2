@@ -87,9 +87,12 @@ void setLed(bool r, bool g, bool b) {
 }
 
 void setBuzzer(bool on) {
+  static int8_t last = -1;
   bool v = BUZZER_ENABLED && on;
+  if (last == (int8_t)v) return;
+  last = (int8_t)v;
 #ifdef WOKWI_SIM
-  if (v) tone(PIN_BUZZER, 2500); else noTone(PIN_BUZZER);  // บัซเซอร์ใน Wokwi ต้องมีความถี่ถึงจะมีเสียง
+  if (v) tone(PIN_BUZZER, 2500); else noTone(PIN_BUZZER);
 #else
   digitalWrite(PIN_BUZZER, v ? HIGH : LOW);
 #endif
